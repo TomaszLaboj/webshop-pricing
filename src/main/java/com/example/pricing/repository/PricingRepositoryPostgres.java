@@ -1,6 +1,8 @@
 package com.example.pricing.repository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -19,13 +21,24 @@ public class PricingRepositoryPostgres implements PricingRepository {
         this.pricingJpaRepository = pricingJpaRepository;
     }
 
+    public ProductPriceEntity findById(Long id) {
+        Optional<ProductPriceEntity> product = pricingJpaRepository.findById(id);
+        if(product.isPresent()) {
+            return product.get();
+        }
+        return null;
+    }
+
+    public ProductPriceEntity createPrice(ProductPriceEntity productPriceEntity) {
+        return pricingJpaRepository.save(productPriceEntity);
+    }
+
     public ProductPriceEntity updatePrice(ProductPrice productPrice) {
         Optional<ProductPriceEntity> productToUpdate = pricingJpaRepository.findById(productPrice.getId());
         if (productToUpdate.isPresent()) {
-            ProductPriceEntity updatedProduct = new ProductPriceEntity(productToUpdate.get().getId(), productPrice.getPrice());
-            pricingJpaRepository.save(updatedProduct);
-            return updatedProduct;
+            ProductPriceEntity updatedProduct = new ProductPriceEntity(productToUpdate.get().getId(), productPrice.getPrice(), productPrice.getDiscounts());
+            return pricingJpaRepository.save(updatedProduct);
         }
         return null;
-    };
+    }
 }

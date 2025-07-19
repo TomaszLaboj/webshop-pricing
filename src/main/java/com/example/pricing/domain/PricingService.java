@@ -37,7 +37,8 @@ public class PricingService {
     };
 
     public List<ProductPrice> updatePrices(List<ProductPrice> updatedProducts) throws JsonProcessingException {
-        updatedProducts.stream().map(product -> pricingRepositoryPostgres.updatePrice(product)).toList();
+        List<ProductPrice> updated = updatedProducts.stream().map(product -> ProductPrice.fromEntity(pricingRepositoryPostgres.updatePrice(product))).toList();
+        kafkaProducer.sendUpdated(updated);
         return updatedProducts;
     };
 

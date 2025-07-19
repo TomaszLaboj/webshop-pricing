@@ -32,7 +32,7 @@ public class KafkaConsumer {
     }
 
     @KafkaListener(id = "check-price", groupId = "pricing", topics = {"calculate-price"})
-    public void listenCalculatePrice(List<ProductQuantity> listOfProducts) {
+    public void listenCalculatePrice(List<ProductQuantity> listOfProducts) throws JsonProcessingException {
         pricingService.calculatePrices(listOfProducts);
     }
 }

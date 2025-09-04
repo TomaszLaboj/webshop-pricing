@@ -31,8 +31,16 @@ public class KafkaConsumer {
         pricingService.updatePrices(updatedProducts);
     }
 
-    @KafkaListener(id = "check-price", groupId = "pricing", topics = {"calculate-price"})
-    public void listenCalculatePrice(List<ProductQuantity> listOfProducts) throws JsonProcessingException {
-        pricingService.calculatePrices(listOfProducts);
+    @KafkaListener(id = "check-price", groupId = "pricing", topics = {"check-price"})
+    public void listenCheckPrices(List<Integer> listOfProducts) throws JsonProcessingException {
+        pricingService.checkPrices(listOfProducts);
     }
+
+    @KafkaListener(id = "calculate-price", groupId = "pricing", topics = {"calculate-price"})
+    public void listenCalculatePrice(List<ProductQuantity> listOfProducts) throws JsonProcessingException {
+        pricingService.calculateDiscounts(listOfProducts);
+    }
+
+    @KafkaListener(id = "update-stock", groupId = "pricing", topics = { "update-stock"})
+    public void listenUpdateStock()
 }

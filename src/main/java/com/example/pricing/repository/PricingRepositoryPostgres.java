@@ -2,7 +2,6 @@ package com.example.pricing.repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -27,6 +26,11 @@ public class PricingRepositoryPostgres implements PricingRepository {
             return product.get();
         }
         return null;
+    }
+
+    public List<ProductPriceEntity> findAllByProductId(Long productId) {
+        List<ProductPriceEntity> productPrices = pricingJpaRepository.findAllById(productId);
+        return productPrices;
     }
 
     public ProductPriceEntity createPrice(ProductPriceEntity productPriceEntity) {

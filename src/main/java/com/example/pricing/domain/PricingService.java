@@ -42,7 +42,7 @@ public class PricingService {
         return updatedProducts;
     };
 
-    public List<Price> calculatePrices(List<ProductQuantity> listOfProducts) throws JsonProcessingException {
+    public List<Price> calculateDiscounts(List<ProductQuantity> listOfProducts) throws JsonProcessingException {
         List<Price> productPrices = new ArrayList<>();
 
         for(ProductQuantity productQuantity : listOfProducts) {
@@ -66,5 +66,9 @@ public class PricingService {
         }
         kafkaProducer.sendCalculatePrice(productPrices);
         return productPrices;
+    }
+
+    public void checkPrices(List<Integer> listOfProducts) {
+
     }
 }

@@ -8,6 +8,6 @@ public class ProductPriceQuantity extends ProductPrice implements Price{
     Long quantity;
     public ProductPriceQuantity(Long id, float price, List<Discount> discounts, Long quantity) {
         super(id, price, discounts);
-        this.quantity = id;
+        this.quantity = quantity;
     }
 }

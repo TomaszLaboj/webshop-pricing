@@ -1,5 +1,9 @@
 package com.example.pricing.domain.model;
 
+import java.util.List;
+
+import com.example.pricing.repository.model.Discount;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class Saving {
-    String description;
-    float savingAmount;
+public class ProductDiscounts {
+    Long id;
+    List<Discount> discounts;
 }

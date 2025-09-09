@@ -8,15 +8,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.pricing.domain.model.Price;
 import com.example.pricing.domain.model.ProductPrice;
-import com.example.pricing.domain.model.ProductPriceQuantity;
-import com.example.pricing.domain.model.ProductQuantity;
 import com.example.pricing.domain.model.Saving;
 import com.example.pricing.kafka.KafkaProducer;
 import com.example.pricing.repository.PricingRepositoryPostgres;
 import com.example.pricing.repository.model.Discount;
-import com.example.pricing.repository.model.ProductPriceEntity;
+import com.example.pricing.repository.model.ProductStockPrice;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Service
@@ -31,44 +28,13 @@ public class PricingService {
         this.kafkaProducer = kafkaProducer;
     };
 
-    public ProductPrice createPrice(ProductPrice productPrice) {
-        pricingRepositoryPostgres.createPrice(new ProductPriceEntity(productPrice.getId(), productPrice.getPrice(), productPrice.getDiscounts()));
-        return productPrice;
+    public ProductPrice updateStock(ProductPrice productPrice) throws JsonProcessingException {
+        pricingRepositoryPostgres.updateStock(productPrice);
+        return productPrice; // is this correct it returns received product price, maybe it should return product price with current price
     };
 
-    public List<ProductPrice> updatePrices(List<ProductPrice> updatedProducts) throws JsonProcessingException {
-        List<ProductPrice> updated = updatedProducts.stream().map(product -> ProductPrice.fromEntity(pricingRepositoryPostgres.updatePrice(product))).toList();
-        kafkaProducer.sendUpdated(updated);
-        return updatedProducts;
-    };
-
-    public List<Price> calculateDiscounts(List<ProductQuantity> listOfProducts) throws JsonProcessingException {
-        List<Price> productPrices = new ArrayList<>();
-
-        for(ProductQuantity productQuantity : listOfProducts) {
-            ProductPrice productPrice = ProductPrice.fromEntity(pricingRepositoryPostgres.findById(productQuantity.getProductId()));
-
-            if(productPrice.getDiscounts() != null) {
-                if(productQuantity.getQuantity() >= 3 && productPrice.getDiscounts().contains(Discount.THREE_FOR_TWO)) {
-                    int numberOfSavings = Math.floorDiv(Long.valueOf(productQuantity.getQuantity()).intValue(), 3);
-                    productPrices.add(new ProductPriceQuantity(productPrice.getId(), productPrice.getPrice(), productPrice.getDiscounts(), productQuantity.getQuantity() -  numberOfSavings));
-                    productPrices.add(new Saving(Discount.THREE_FOR_TWO.toString(), productPrice.getPrice() * numberOfSavings * -1));
-                }
-            } else if (productQuantity.getQuantity() >= 2 && productPrice.getDiscounts().contains(Discount.GET_ONE_GET_SECOND_HALF_PRICE)) {
-                int numberOfSavings = Math.floorDiv(Long.valueOf(productQuantity.getQuantity()).intValue(), 2);
-                productPrices.add(new ProductPriceQuantity(productPrice.getId(), productPrice.getPrice(), productPrice.getDiscounts(), productQuantity.getQuantity() -  numberOfSavings));
-                productPrices.add(new Saving(Discount.THREE_FOR_TWO.toString(), productPrice.getPrice() * numberOfSavings * -0.5f));
-            }
-            if (productPrice.getDiscounts().contains(Discount.WEDNESDAY_DISCOUNT) && DayOfWeek.from(LocalDate.now()).toString() == "WEDNESDAY") {
-                productPrices.add(new ProductPriceQuantity(productPrice.getId(), productPrice.getPrice() * 0.9f, productPrice.getDiscounts(), productQuantity.getQuantity()));
-            }
-            productPrices.add(new ProductPriceQuantity(productPrice.getId(), productPrice.getPrice(), productPrice.getDiscounts(), productQuantity.getQuantity()));
-        }
-        kafkaProducer.sendCalculatePrice(productPrices);
-        return productPrices;
+    public ProductPrice checkPrice(Long id) throws JsonProcessingException {
+        return ProductPrice.fromEntity(pricingRepositoryPostgres.findById(id));
     }
 
-    public void checkPrices(List<Integer> listOfProducts) {
-
-    }
 }

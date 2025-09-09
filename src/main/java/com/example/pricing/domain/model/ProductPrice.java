@@ -1,5 +1,6 @@
 package com.example.pricing.domain.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.pricing.repository.model.Discount;
@@ -11,13 +12,26 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
-public class ProductPrice implements Price {
+public class ProductPrice {
     Long id;
     float price;
-    List<Discount> discounts;
+    int stockQuantity;
 
-    public static ProductPrice fromEntity(ProductPriceEntity productPrice) {
-        return new ProductPrice(productPrice.getId(), productPrice.getPrice(), productPrice.getDiscounts());
+    public ProductPrice(Long id, float price, int stockQuantity) {
+        this.id = id;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+    };
+
+    public ProductPrice(Long id, float price) {
+        this.id = id;
+        this.price = price;
+    };
+
+    public static ProductPrice fromEntity(ProductPriceEntity productPriceEntity) {
+        return new ProductPrice(
+                productPriceEntity.getId(),
+                productPriceEntity.getStockPrices().getFirst().getPrice()
+        );
     }
 }

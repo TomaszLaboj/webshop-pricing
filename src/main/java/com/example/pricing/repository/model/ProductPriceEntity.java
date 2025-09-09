@@ -3,7 +3,9 @@ package com.example.pricing.repository.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,13 +17,28 @@ public class ProductPriceEntity {
 
     @Id
     Long id;
-    float price;
     List<Discount> discounts;
-
-    public ProductPriceEntity(Long id, float price, List<Discount> discounts) {
+    @ElementCollection
+    List<ProductStockPrice> stockPrices;
+    public ProductPriceEntity(Long id, List<Discount> discounts) {
         this.id = id;
-        this.price = price;
         this.discounts = discounts;
+        this.stockPrices = new ArrayList<>();
+    }
+    public ProductPriceEntity(Long id) {
+        this.id = id;
+        this.discounts = new ArrayList<>();
+        this.stockPrices = new ArrayList<>();
+    }
+
+    public ProductStockPrice addStockPrice(ProductStockPrice productStockPrice) {
+        this.stockPrices.add(productStockPrice);
+        return productStockPrice;
+    }
+
+    public Discount addDiscount(Discount discount) {
+        this.discounts.add(discount);
+        return discount;
     }
 
     public ProductPriceEntity() {}

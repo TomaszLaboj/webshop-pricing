@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-import com.example.pricing.domain.model.Price;
 import com.example.pricing.domain.model.ProductPrice;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,7 +26,5 @@ public class KafkaProducer {
         kafkaTemplate.send("updated", mapper.writeValueAsString(updatedProducts));
     }
 
-    public void sendCalculatePrice(List<Price> productPrices) throws JsonProcessingException {
-        kafkaTemplate.send("calculate-price", mapper.writeValueAsString(productPrices));
-    }
+
 }

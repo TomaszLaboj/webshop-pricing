@@ -6,12 +6,13 @@ import java.util.List;
 import com.example.pricing.repository.model.Discount;
 import com.example.pricing.repository.model.ProductPriceEntity;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class ProductPrice {
     Long id;
     float price;

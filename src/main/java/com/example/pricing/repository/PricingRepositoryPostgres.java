@@ -37,8 +37,8 @@ public class PricingRepositoryPostgres implements PricingRepository {
             productPriceEntityToUpdate.addStockPrice(new ProductStockPrice(productPrice.getPrice(), productPrice.getStockQuantity()));
             return pricingJpaRepository.save(productPriceEntityToUpdate);
         }
-        ProductPriceEntity newProducPriceEntity = new ProductPriceEntity(productPrice.getId());
-        newProducPriceEntity.addStockPrice(new ProductStockPrice(productPrice.getPrice(), productPrice.getStockQuantity()));
-        return pricingJpaRepository.save(newProducPriceEntity);
+        ProductPriceEntity productPriceEntity = new ProductPriceEntity(productPrice.getId());
+        productPriceEntity.addStockPrice(new ProductStockPrice(productPrice.getPrice(), productPrice.getStockQuantity()));
+        return pricingJpaRepository.save(productPriceEntity);
     }
 }

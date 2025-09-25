@@ -19,7 +19,7 @@ import com.example.pricing.domain.model.ProductPrice;
 public class KafkaConsumerConfig {
 
     @Bean
-    public ConsumerFactory<String, ProductPrice> consumerFactory() {
+    public ConsumerFactory<String, ProductPrice> productPriceConsumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "pricing");
@@ -35,12 +35,37 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, ProductPrice> kafkaListenerContainerFactory() {
+    public ConcurrentKafkaListenerContainerFactory<String, ProductPrice> productPriceKafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, ProductPrice> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerFactory());
+        factory.setConsumerFactory(productPriceConsumerFactory());
         return factory;
     }
+
+    @Bean
+    public ConsumerFactory<String, Long> checkPriceConsumerFactory() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "pricing");
+
+        JsonDeserializer<Long> deserializer = new JsonDeserializer<>(Long.class);
+        deserializer.addTrustedPackages("com.example.pricing.domain.model");
+
+        return new DefaultKafkaConsumerFactory<>(
+                props,
+                new StringDeserializer(),
+                deserializer
+        );
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, Long> checkPriceContainerConsumerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, Long> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(checkPriceConsumerFactory());
+        return factory;
+    }
+
 }
 
 

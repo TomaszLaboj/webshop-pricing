@@ -3,6 +3,8 @@ package com.example.pricing.repository.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.pricing.domain.model.ProductPrice;
+
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -39,6 +41,10 @@ public class ProductPriceEntity {
     public Discount addDiscount(Discount discount) {
         this.discounts.add(discount);
         return discount;
+    }
+
+    public ProductPrice toProductPrice() {
+        return new ProductPrice(this.id, stockPrices.getFirst().getPrice(), stockPrices.getFirst().getStockQuantity());
     }
 
     public ProductPriceEntity() {}

@@ -29,10 +29,4 @@ public class ProductPrice {
         this.price = price;
     };
 
-    public static ProductPrice fromEntity(ProductPriceEntity productPriceEntity) {
-        return new ProductPrice(
-                productPriceEntity.getId(),
-                productPriceEntity.getStockPrices().getFirst().getPrice()
-        );
-    }
 }

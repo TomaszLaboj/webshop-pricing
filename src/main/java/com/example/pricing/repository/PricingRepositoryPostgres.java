@@ -22,7 +22,7 @@ public class PricingRepositoryPostgres implements PricingRepository {
         this.pricingJpaRepository = pricingJpaRepository;
     }
 
-    public ProductPriceEntity findById(Long id) {
+    public ProductPriceEntity findProductEntityById(Long id) {
         Optional<ProductPriceEntity> product = pricingJpaRepository.findById(id);
         if(product.isPresent()) {
             return product.get();
@@ -40,5 +40,13 @@ public class PricingRepositoryPostgres implements PricingRepository {
         ProductPriceEntity productPriceEntity = new ProductPriceEntity(productPrice.getId());
         productPriceEntity.addStockPrice(new ProductStockPrice(productPrice.getPrice(), productPrice.getStockQuantity()));
         return pricingJpaRepository.save(productPriceEntity);
+    }
+
+    public ProductPrice findProductPriceById(Long id) {
+        Optional<ProductPriceEntity> product = pricingJpaRepository.findById(id);
+        if(product.isPresent()) {
+            return product.get().toProductPrice();
+        }
+        return null;
     }
 }

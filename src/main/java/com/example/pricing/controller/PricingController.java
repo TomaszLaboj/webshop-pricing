@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 @RestController
 public class PricingController {
+//why context cannot be intitializes
 
     PricingService pricingService;
 

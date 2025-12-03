@@ -14,7 +14,6 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import com.example.pricing.domain.model.ProductPrice;
 
-@EnableKafka
 @Configuration
 public class KafkaConsumerConfig {
 

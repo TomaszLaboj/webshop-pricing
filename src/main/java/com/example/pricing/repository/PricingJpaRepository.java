@@ -10,4 +10,5 @@ import com.example.pricing.repository.model.ProductPriceEntity;
 public interface PricingJpaRepository extends CrudRepository<ProductPriceEntity, Long> {
     Optional<ProductPriceEntity> findById(Long id);
     List<ProductPriceEntity> findAllById(Long id);
+    List<ProductPriceEntity> findAll();
 }

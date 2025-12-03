@@ -9,8 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import com.example.pricing.domain.PricingRepository;
 import com.example.pricing.domain.model.ProductPrice;
+import com.example.pricing.domain.model.ProductPrices;
 import com.example.pricing.repository.model.ProductPriceEntity;
-import com.example.pricing.repository.model.ProductStockPrice;
+import com.example.pricing.domain.model.ProductStockPrice;
 
 @Repository
 public class PricingRepositoryPostgres implements PricingRepository {
@@ -48,5 +49,18 @@ public class PricingRepositoryPostgres implements PricingRepository {
             return product.get().toProductPrice();
         }
         return null;
+    }
+
+    public List<ProductPriceEntity> findAll() {
+        return pricingJpaRepository.findAll();
+    }
+
+    public List<ProductPrices> findAllProductStockPrices() {
+        List<ProductPriceEntity>  productPriceEntities = pricingJpaRepository.findAll();
+        List<ProductPrices> productStockPrices = new ArrayList<>();
+        for(ProductPriceEntity productPriceEntity : productPriceEntities) {
+            productStockPrices.add(new ProductPrices(productPriceEntity.getId(), productPriceEntity.getStockPrices()));
+        }
+        return productStockPrices;
     }
 }

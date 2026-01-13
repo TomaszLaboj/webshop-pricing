@@ -17,7 +17,7 @@ import com.example.pricing.domain.model.ProductsCalculatedPrices;
 public class KafkaProducerConfig {
 
     @Bean
-    public ProducerFactory<String, ProductsCalculatedPrices> producerFactory() {
+    public ProducerFactory<Object, String> producerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(
                 ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
@@ -32,7 +32,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, ProductsCalculatedPrices> kafkaTemplate() {
+    public KafkaTemplate<Object, String> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 }

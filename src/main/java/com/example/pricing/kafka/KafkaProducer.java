@@ -11,10 +11,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Component
 public class KafkaProducer {
 
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<Object, String> kafkaTemplate;
 
     @Autowired
-    public KafkaProducer(KafkaTemplate<String, String> kafkaTemplate) {
+    public KafkaProducer(KafkaTemplate<Object, String> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.pricing.LoggingController;
+import com.example.pricing.domain.model.ProductPrice;
 import com.example.pricing.kafka.KafkaProducer;
 import com.example.pricing.repository.PricingRepositoryPostgres;
 
@@ -20,6 +21,10 @@ public class PricingService {
     public PricingService(PricingRepositoryPostgres pricingRepositoryPostgres,  KafkaProducer kafkaProducer) {
         this.pricingRepositoryPostgres = pricingRepositoryPostgres;
         this.kafkaProducer = kafkaProducer;
+    }
+
+    public ProductPrice getPrice(Long id) {
+        return pricingRepositoryPostgres.findProductPriceEntityById(id).toProductPrice();
     }
 
 }

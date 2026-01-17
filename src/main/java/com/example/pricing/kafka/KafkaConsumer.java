@@ -25,12 +25,10 @@ public class KafkaConsumer {
 
     @KafkaListener(id = "update-stock", groupId = "pricing", topics = { "update-stock"}, containerFactory = "productPriceKafkaListenerContainerFactory")
     public void listenUpdateStock(ProductPrice product) throws JsonProcessingException {
-        pricingService.updateStock(product);
         logger.info("Received message, id: " + product.getId() + ",stock: " + product.getStockQuantity() + ", price: " + product.getPrice());
     }
 
     @KafkaListener(id = "check-price", groupId = "pricing", topics = { "check-price"}, containerFactory = "checkPriceContainerConsumerFactory")
     public void listenCheckPrice(Long productId) throws JsonProcessingException {
-        pricingService.checkPrice(productId);
     }
 }

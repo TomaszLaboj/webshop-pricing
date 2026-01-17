@@ -20,6 +20,6 @@ public class PricingService {
     public PricingService(PricingRepositoryPostgres pricingRepositoryPostgres,  KafkaProducer kafkaProducer) {
         this.pricingRepositoryPostgres = pricingRepositoryPostgres;
         this.kafkaProducer = kafkaProducer;
-    };
+    }
 
 }

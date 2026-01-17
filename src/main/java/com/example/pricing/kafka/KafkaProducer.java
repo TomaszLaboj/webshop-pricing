@@ -19,9 +19,4 @@ public class KafkaProducer {
 
     ObjectMapper mapper = new ObjectMapper();
 
-    public void sendPrices(ProductsCalculatedPrices productPrices) throws JsonProcessingException {
-        kafkaTemplate.send("updated", mapper.writeValueAsString(productPrices));
-    }
-
-
 }

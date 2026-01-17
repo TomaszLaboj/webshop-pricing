@@ -16,11 +16,11 @@ public class ProductPrice {
         this.id = id;
         this.price = price;
         this.stockQuantity = stockQuantity;
-    };
+    }
 
     public ProductPrice(Long id, float price) {
         this.id = id;
         this.price = price;
-    };
+    }
 
 }

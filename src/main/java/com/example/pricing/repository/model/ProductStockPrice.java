@@ -1,4 +1,4 @@
-package com.example.pricing.domain.model;
+package com.example.pricing.repository.model;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;

@@ -1,11 +1,5 @@
 package com.example.pricing.domain.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.example.pricing.repository.model.Discount;
-import com.example.pricing.repository.model.ProductPriceEntity;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -30,5 +30,6 @@ public class KafkaConsumer {
 
     @KafkaListener(id = "check-price", groupId = "pricing", topics = { "check-price"}, containerFactory = "checkPriceContainerConsumerFactory")
     public void listenCheckPrice(Long productId) throws JsonProcessingException {
+        pricingService.sendPrice(productId);
     }
 }

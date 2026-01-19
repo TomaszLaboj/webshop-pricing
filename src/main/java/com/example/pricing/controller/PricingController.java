@@ -1,5 +1,7 @@
 package com.example.pricing.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +22,11 @@ public class PricingController {
     @GetMapping(value="/price", params="productId")
     public ProductPrice getProduct(@RequestParam("productId") Long productId) {
         return pricingService.getPrice(productId);
+    }
+
+    @GetMapping(value="/all-prices")
+    public List<ProductPrice> getProducts() {
+        return pricingService.getAllPrices();
     }
 
 }

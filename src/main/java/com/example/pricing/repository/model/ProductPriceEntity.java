@@ -7,6 +7,7 @@ import com.example.pricing.domain.model.ProductPrice;
 
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +20,7 @@ public class ProductPriceEntity {
     @Id
     Long id;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     List<ProductStockPrice> stockPrices;
 
     public ProductPriceEntity(Long id) {

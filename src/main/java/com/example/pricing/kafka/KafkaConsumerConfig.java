@@ -48,7 +48,6 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "pricing");
 
         JsonDeserializer<Long> deserializer = new JsonDeserializer<>(Long.class);
-        deserializer.addTrustedPackages("com.example.pricing.domain.model");
 
         return new DefaultKafkaConsumerFactory<>(
                 props,

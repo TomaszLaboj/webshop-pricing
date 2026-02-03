@@ -26,6 +26,7 @@ public class KafkaProducer {
 
     public void sendPrice(ProductPrice productPrice) throws JsonProcessingException {
         kafkaTemplate.send("send-price", mapper.writeValueAsString(productPrice));
+        logger.info("Product price sent.");
     }
 
     public void sendMessage(String message) throws JsonProcessingException {

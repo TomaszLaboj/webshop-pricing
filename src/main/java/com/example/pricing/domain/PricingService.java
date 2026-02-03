@@ -11,7 +11,6 @@ import com.example.pricing.LoggingController;
 import com.example.pricing.domain.model.ProductPrice;
 import com.example.pricing.kafka.KafkaProducer;
 import com.example.pricing.repository.PricingRepositoryPostgres;
-import com.example.pricing.repository.model.ProductPriceEntity;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Service
@@ -28,8 +27,7 @@ public class PricingService {
     }
 
     public ProductPrice getPrice(Long id) {
-        ProductPrice productPrice = pricingRepositoryPostgres.findProductPriceEntityById(id).toProductPrice();
-        return productPrice;
+        return pricingRepositoryPostgres.findProductPriceEntityById(id).toProductPrice();
     }
 
     public void sendPrice(Long id) throws JsonProcessingException {
@@ -37,7 +35,7 @@ public class PricingService {
         ProductPrice productPrice = pricingRepositoryPostgres.findProductPriceEntityById(id).toProductPrice();
         logger.info("from service product price: " + productPrice.toString());
 
-//        kafkaProducer.sendMessage("hello from pricing");
+        kafkaProducer.sendPrice(productPrice);
     }
 
     public List<ProductPrice> getAllPrices() {
